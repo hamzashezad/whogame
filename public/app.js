@@ -89,8 +89,7 @@ doing_button.addEventListener('click', (event) => {
 
 socket.on('new_game_id', (data) => {
 	current_game = data.game.id;
-	game[current_game] = {};
-	game[current_game].id = data.game.id;
+	game[current_game] = data.game;
 });
 
 socket.on('answers', (data)  => {

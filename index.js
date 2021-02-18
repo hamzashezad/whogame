@@ -19,8 +19,7 @@ const io = socket(server);
 const games = [];
 
 let users = [];
-let game_id = 1;
-let game_idx = 1;
+let game_id = 0;
 
 io.on('connection', (socket) => {
 	socket.username = uuid.v4();
@@ -55,52 +54,51 @@ io.on('connection', (socket) => {
 				message: `need ${4 - user_count} more users`
 			});
 		} else {
-			games[game_idx] =  {
-				id: game_id,
-				index: game_idx
+			games[game_id] = {
+				id: game_id
 			};
 
 			io.emit('new_game_id', {
-				game: games[game_idx]
+				game: games[game_id]
 			});
-
-			game_id ++;
 		}
 	});
 
 	socket.on('who', (data) => {
-		if (! games[game_idx].answers) {
-			games[game_idx].answers = {};
+		if (! games[game_id].answers) {
+			games[game_id].answers = {};
 		}
 
-		games[game_idx].answers.who = data.value;
+		games[game_id].answers.who = data.value;
 	});
 
 	socket.on('with', (data) => {
-		if (! games[game_idx].answers) {
-			games[game_idx].answers = {};
+		if (! games[game_id].answers) {
+			games[game_id].answers = {};
 		}
 
-		games[game_idx].answers.with = data.value;
+		games[game_id].answers.with = data.value;
 	});
 
 	socket.on('where', (data) => {
-		if (! games[game_idx].answers) {
-			games[game_idx].answers = {};
+		if (! games[game_id].answers) {
+			games[game_id].answers = {};
 		}
 
-		games[game_idx].answers.where = data.value;
+		games[game_id].answers.where = data.value;
 	});
 
 	socket.on('doing', (data) => {
-		if (! games[game_idx].answers) {
-			games[game_idx].answers = {};
+		if (! games[game_id].answers) {
+			games[game_id].answers = {};
 		}
 
-		games[game_idx].answers.doing = data.value;
+		games[game_id].answers.doing = data.value;
 	});
 
 	socket.on('show_answers', () => {
-		io.emit('answers', games[game_idx]);
+		io.emit('answers', games[game_id]);
+
+		game_id ++;
 	});
 });
