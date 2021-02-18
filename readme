@@ -1,0 +1,62 @@
+EVENTS
+
+Generic:
+
+- connection
+- disconnect
+
+User:
+
+- new_user
+- set_username
+- username_change
+
+Errors:
+
+- insufficient_users
+
+Game:
+
+- round_start
+- new_game_id
+- who
+- with
+- where
+- doing
+- show_answers
+
+FLOWCHART
+
+          filter      +--------+      append
+        +-------------> users[]<------------------+
+        |             +--------+                  | 1
+        |                                         |
+        |                                         |
+        |                                     1a ++-----------+  o1
++-------+------+     +---------------------------+ connection +-----------------+
+| ~disconnect  |     |                           +--------+---+                 |
++--------------+     |                             |2     | 3                   |                   +-----------------+
+                     |              +--------------+      |            +--------v---------+         +>username_change |
+               +-----v----+         |                     |            |~set_username     | o1a     | +old_username   |
+               +>new_user |  +------v------+ +------------v---------+  | +socket.username +---------> +username       |
+               | +uuid    |  |~round_start | |~who/with/where/doing |  +------------------+         |                 |
+               | +users[] |  | +user_count | | +games[game_idx]     | 3a                            +-----------------+
+               |          |  |             | |                      +---------------------+
+               +----------+  +-------------+ +----------------------+  append at game_idx |
+                                 |2a      |2b                  |4                (global) |
+                           +-----+        +----+               +-----+                    |
+                           |                   |append to games[]    |                    |
+                           |                   |                     |                    |
+                +----------v---------+  +------v------+              |           +--------v--------+
+                +>insufficient_users |  +>new_game_id |              |           | games[]         |
+                |                    |  |             |      +-------v------+    | global store    |
+                +--------------------+  +-------------+      |~show_answers |    +-----------------+
+                                                             | +game_id     |
+                                                             |              |
+                                                             +------+-------+
+                                                                    | 4a
+                                                                    |
+                                                                +---v-----+
+                                                                |>answers |
+                                                                +---------+
+
