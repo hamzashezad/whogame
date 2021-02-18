@@ -1,0 +1,36 @@
+form {
+	margin-bottom: 1rem;
+}
+
+table {
+	width: 100%;
+	margin: 1rem auto;
+	border-collapse: collapse;
+}
+
+td {
+	border-left:  1px solid black;
+	text-align: center;
+}
+
+td:first-of-type {
+	border-left: none;
+}
+
+#notification {
+	margin: 1rem 0;
+	color: green;
+	opacity: 0;
+	animation: blink 1s steps(5, start) infinite;
+}
+
+#notification > .error {
+	color: red;
+	animation: initial;
+}
+
+@keyframes blink {
+	to {
+		opacity: 1;
+	}
+}

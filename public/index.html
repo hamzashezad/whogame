@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Who? With whome? Where? Doing what?</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>Who? With whome? Where? Doing what?</h1>
+
+		<div id="notification"></div>
+
+		<form method="post" id="set_username">
+			<label for="username">Set your username: </label>
+
+			<input type="text" name="username" placeholder="Username" id="username">
+
+			<button>Set username</button>
+		</form>
+
+		<section>
+			<h2>Users</h2>
+			<ul>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Games</h2>
+
+			<button id="start">Start round</button>
+
+			<table>
+				<thead>
+					<tr>
+						<th>Game ID</th>
+						<th>Who?</th>
+						<th>With whome?</th>
+						<th>Where?</th>
+						<th>Doing what?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id="setup">
+						<td></td>
+						<td>
+							<form method="post">
+								<input type="text" name="who" placeholder="Who" id="who">
+								<button id="who_button">Add</button>
+							</form>
+						</td>
+						<td>
+							<form method="post">
+								<input type="text" placeholder="With whome?" id="with">
+								<button id="with_button">Add</button>
+							</form>
+						</td>
+						<td>
+							<form method="post">
+								<input type="text" id="where" placeholder="Where?">
+								<button id="where_button">Add</button>
+							</form>
+						</td>
+						<td>
+							<form method="post">
+								<input type="text" id="doing" placeholder="Doing what?">
+								<button id="doing_button">Add</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<script src="socket.io.js"></script>
+		<script type="module" src="app.js"></script>
+	</body>
+</html>
