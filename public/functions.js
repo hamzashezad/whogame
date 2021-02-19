@@ -32,10 +32,14 @@ export function show_notification (data, type) {
 	const container = document.querySelector('#notification');
 	const notification = document.createElement('div');
 
-	notification.textContent = `New user joined: ${data}`;
+	notification.textContent = data;
 
 	if (type > 0) {
 		notification.classList.add('error');
+	}
+
+	if (type < 0) {
+		notification.classList.add('info');
 	}
 	
 	container.appendChild(notification);
@@ -72,6 +76,13 @@ export function show_answers (data) {
 
 	first_td.remove();
 }
+
+export const parts = {
+	who: 'Who?',
+	with: 'With whome?',
+	where: 'Where?',
+	doing: 'Doing what?'
+};
 
 function sort_answers (answers) {
 	return {

@@ -32,7 +32,10 @@ td:first-of-type {
 
 #notification > .error {
 	color: red;
-	animation: initial;
+}
+
+#notification > .info {
+	color: skyblue;
 }
 
 @keyframes blink {

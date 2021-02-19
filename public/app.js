@@ -1,4 +1,12 @@
-import { add_user_to_game, change_username, show_notification, set_user_list, show_answers } from './functions.js';
+import {
+	add_user_to_game,
+	change_username,
+	show_notification,
+	set_user_list,
+	show_answers_button,
+	show_answers,
+	parts
+} from './functions.js';
 
 const socket = io(); // eslint-disable-line
 
@@ -92,6 +100,14 @@ socket.on('new_game_id', (data) => {
 	game[current_game] = data.game;
 });
 
+socket.on('turn_start', () => {
+	show_notification('your turn to start the game!', -1);
+});
+
+socket.on('turn_continue', (data) => {
+	show_notification(`your turn to fill ${parts[data.part]}`, -1);
+});
+
 socket.on('answers', (data)  => {
 	show_answers(data);
 });
@@ -108,7 +124,7 @@ socket.on('username_change', (data) => {
 socket.on('new_user', (data) => {
 	username = add_user_to_game(data);
 
-	show_notification(username, 0);
+	show_notification(`new user joined: ${username}`, 0);
 
 	set_user_list(data.users);
 });

@@ -18,13 +18,22 @@ const io = socket(server);
 
 const games = [];
 
+const parts = [
+	'who',
+	'with',
+	'where',
+	'doing'
+];
+
 let users = [];
+let socket_ids = [];
 let game_id = 0;
 
 io.on('connection', (socket) => {
 	socket.username = uuid.v4();
 
 	users.push(socket.username);
+	socket_ids.push(socket.id);
 
 	io.emit('new_user', {
 		username: socket.username,
@@ -33,6 +42,7 @@ io.on('connection', (socket) => {
 
 	socket.on('disconnect', () => {
 		users = users.filter((user) => user !== socket.username);
+		socket_ids = socket_ids.filter((id) => id !== socket.id);
 	});
 
 	socket.on('set_username', (data) => {
@@ -57,6 +67,27 @@ io.on('connection', (socket) => {
 			games[game_id] = {
 				id: game_id
 			};
+
+			const random = parseInt(Math.random() * 3);
+			const temp_socket_ids = [...socket_ids];
+			const temp_parts = [...parts];
+
+			socket.to(socket_ids[random]).emit('turn_start', null);
+
+			temp_socket_ids.splice(random, 1);
+			temp_parts.splice(0, 1);
+
+			for (let i = 0; i < 3; i ++) {
+				if (socket.id == temp_socket_ids[i]) {
+					socket.emit('turn_continue', {
+						part: temp_parts[i]
+					});
+				} else {
+					socket.to(temp_socket_ids[i]).emit('turn_continue', {
+						part: temp_parts[i]
+					});
+				}
+			}
 
 			io.emit('new_game_id', {
 				game: games[game_id]
