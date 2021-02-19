@@ -49,6 +49,7 @@ io.on('connection', (socket) => {
 		const old_username = socket.username;
 
 		socket.username = data.username;
+		users[users.indexOf(old_username)] = data.username;
 
 		io.emit('username_change', {
 			old_username: old_username,

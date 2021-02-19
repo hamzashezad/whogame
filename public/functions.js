@@ -57,6 +57,22 @@ export function set_user_list (users) {
 	}
 }
 
+export function show_answers_button () {
+	const tbody = document.querySelector('tbody');
+	const tr = document.createElement('tr');
+	const td = document.createElement('td');
+	const button = document.createElement('button');
+
+	button.setAttribute('id', 'show_answers');
+	button.textContent = 'Show answers';
+
+	td.appendChild(button);
+	tr.appendChild(td);
+	tbody.appendChild(tr);
+
+	return button;
+}
+
 export function show_answers (data) {
 	const tbody = document.querySelector('tbody');
 	const rows = document.querySelectorAll('tr');
